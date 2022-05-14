@@ -8,21 +8,37 @@ using namespace std;
 #define RADIANS_TO_DEGREES(radians) ((radians) * (180.0 / M_PI))
 #define DEGREES_TO_RADIANS(angle) ((angle) / 180.0 * M_PI)
 
+#define KD_MULT 6
+#define FINGER_KD KD_MULT*15, KD_MULT*20, KD_MULT*15, KD_MULT*15
+
+
 // Default parameters.
 double k_p[DOF_JOINTS] =
         {
                 // Default P Gains for PD Controller, loaded if
                 // 'gains_pd.yaml' file is not loaded.
-                600.0, 600.0, 600.0, 1000.0, 600.0, 600.0, 600.0, 1000.0,
-                600.0, 600.0, 600.0, 1000.0, 1000.0, 1000.0, 1000.0, 600.0
+                // 600.0, 600.0, 600.0, 1000.0, 600.0, 600.0, 600.0, 1000.0,
+                // 600.0, 600.0, 600.0, 1000.0, 1000.0, 1000.0, 1000.0, 600.0
+                500, 800, 900, 500,500, 800, 900, 500,
+	            	500, 800, 900, 500,1000, 700, 600, 600
         };
 
 double k_d[DOF_JOINTS] =
         {
                 // Default D Gains for PD Controller, loaded if
                 // 'gains_pd.yaml' file is not loaded.
-                15.0, 20.0, 15.0, 15.0, 15.0, 20.0, 15.0, 15.0,
-                15.0, 20.0, 15.0, 15.0, 30.0, 20.0, 20.0, 15.0
+                // original values
+                // 15.0, 20.0, 15.0, 15.0, 15.0, 20.0, 15.0, 15.0,
+                // 15.0, 20.0, 15.0, 15.0, 30.0, 20.0, 20.0, 15.0
+
+                // FINGER_KD,
+                // FINGER_KD,
+                // FINGER_KD,
+                // KD_MULT*30, KD_MULT*20, KD_MULT*20, KD_MULT*15
+             
+                // original values for Allegro_Hand (In SG integration code)
+                25, 50, 55, 40,25, 50, 55, 40,
+		            25, 50, 55, 40,50, 50, 50, 40
         };
 
 double home_pose[DOF_JOINTS] =

@@ -24,6 +24,7 @@
 
   -->
 
+<!-- <node name="robot_state_publisher" pkg="robot_state_publisher" type="robot_state_publisher" /> -->
 
   <!-- The inclusion of which_hand in the zero.yaml file has been deprecated.
        Which hand (left/right) must now be specified as an argument when launching the Allegro Hand
@@ -34,6 +35,7 @@
 
   <!-- Use the joint_state_publisher for *commanded* joint angles. -->
   <arg name="JSP_GUI" default="false"/>
+
 
   <!-- Visualization with rviz, only if arg VISUALIZE is set to true. Default is
        false, the allegro_viz.launch can be started separated. -->
@@ -56,7 +58,7 @@
   <!-- ls -l /dev/pcan* to see your open CAN ports. Auto means find it
        automatically, and ignores the CAN_DEVICE argument. -->
   <arg name="AUTO_CAN" default="true" />
-  <arg name="CAN_DEVICE" default="/dev/pcanusb1" />
+  <arg name="CAN_DEVICE" default="/dev/pcanusb32" />
 
   <arg name="PARAMS_DIR" default="$(find allegro_hand_parameters)" />
   <arg name="KEYBOARD" default="true" />
@@ -70,8 +72,7 @@
   <!-- Load the robot description directly from the xacro file. (NOTE: store it
        in two parameter names.) -->
   <param name="robot_description"
-         command="$(find xacro)/xacro.py
-                  $(find allegro_hand_description)/allegro_hand_description_$(arg HAND).xacro"/>
+         command="$(find xacro)/xacro '$(find allegro_hand_description)/allegro_hand_description_$(arg HAND).xacro'"/>
 
   <!-- Allegro Hand controller and communication node. -->
   <node name="allegroHand_$(arg HAND)_$(arg NUM)"
@@ -123,15 +124,16 @@
   <!-- Joint States (angles) to Joint Transforms -->
   <node name="jointState2tf_$(arg NUM)"
         pkg="robot_state_publisher"
-        type="state_publisher">
+        type="robot_state_publisher">		<!--// changed this from 'state_publisher' to 'robot_state_publisher' to fix error !-->
     <remap from="tf" to="allegroHand_$(arg NUM)/tf"/>
     <remap from="joint_states" to="allegroHand_$(arg NUM)/joint_states"/>
   </node>
+  
 
   <!-- Keyboard handler (if arg KEYBOARD is true) -->
   <node name="keyboard_$(arg NUM)"
-        pkg="allegro_hand_keyboard"
-        type="allegro_hand_keyboard_node"
+        pkg="allegro_hand_keyboard"		
+        type="allegro_hand_keyboard_node"		
         output="screen"
         if="$(arg KEYBOARD)">
     <remap from="allegroHand/lib_cmd" to="allegroHand_$(arg NUM)/lib_cmd"/>
