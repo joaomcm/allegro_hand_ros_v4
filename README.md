@@ -180,8 +180,12 @@ the system has not done it automatically.
 3. Build the sources:  
 ```
     catkin_make  
+```
+5. Source the environment:
+```
     source devel/setup.bash  
 ```
+
 4. quick start:  
 ```
     cd src/allegro_hand_controllers/launch  
