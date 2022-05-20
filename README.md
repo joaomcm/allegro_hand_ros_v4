@@ -181,12 +181,12 @@ the system has not done it automatically.
 ```
     catkin_make  
 ```
-5. Source the environment:
+4. Source the environment:
 ```
     source devel/setup.bash  
 ```
 
-4. quick start:  
+5. quick start:  
 ```
     cd src/allegro_hand_controllers/launch  
     roslaunch allegro_hand.launch HAND:=right
