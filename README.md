@@ -183,6 +183,7 @@ the system has not done it automatically.
     source devel/setup.bash
 
 4. quick start
+
     cd src/allegro_hand_controllers/launch
     roslaunch allegro_hand.launch HAND:=right
 
