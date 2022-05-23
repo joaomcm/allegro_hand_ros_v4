@@ -1,9 +1,5 @@
 import socket
 import numpy as np
-# from mpl_toolkits.mplot3d import Axes3D
-import seaborn as sns
-# import matplotlib.animation as animation
-# from matplotlib import pyplot as plt
 from threading import Thread,Lock
 import time
 import re
@@ -29,7 +25,7 @@ class HandController:
         rospy.init_node('TestNode')
         self.world = WorldModel()
 
-        self.world.loadElement('/home/motion/will/ROS_ALLEGRO_HAND/allegro_hand_ros_v4/src/allegro_hand_description/klampt_allegro_hand_right.urdf')
+        self.world.loadElement('./src/allegro_hand_description/klampt_allegro_hand_right.urdf')
         vis.init('PyQt')
 
         vis.add('world',self.world)
@@ -42,9 +38,9 @@ class HandController:
         self.active_dofs_list = [[11,12,13,14],[6,7,8,9],[16,17,18,19],[21,22,23,24]]
         self.to_state_msg = [6,7,8,9,16,17,18,19,21,22,23,24,11,12,13,14]
 
-    def get_span(self,calibration_run = 'jingchen_hand_run.pkl'):
+    def get_span(self,calibration_run = './jingchen_hand_run.pkl'):
         if(type(calibration_run) == str):
-            self.hand_df = pd.read_pickle('jingchen_hand_run.pkl')
+            self.hand_df = pd.read_pickle(calibration_run)
         else:
             self.hand_df = calibration_run
         pos = self.hand_df.positions[0]
@@ -70,7 +66,7 @@ class HandController:
         self.T = (self.R,[0,0,-0.2])
     def animate_and_command(self,pos,angle,control = False):
         angle = angle.astype(float)
-        self.pc.setPoints(1.4*pos.reshape(-1,3)/1000)
+        self.pc.setPoints(1.5*pos.reshape(-1,3)/1000)
         self.pc.transform(self.R,[-0.04,-0.01,-0.05])
         vis.add('pc',self.pc,size = 40,color = [1,0,0,0.5])
         command = np.clip((np.pi/2)*(angle-self.min_vals)/self.span,0,90)
@@ -183,7 +179,7 @@ class UDP_Server:
 #         this_array = this_array
         return angles,positions,thumb_positions
     
-    def switch_recording(self,dump = False,name = 'example_run.pkl'):
+    def switch_recording(self,dump = False,name = './example_run.pkl'):
         self.record = not self.record
         df = pd.DataFrame({'time':self.times,'positions':self.positions,'angles':self.angles,'thumb_angles':self.thumb_angles})
         self.df = df
@@ -221,9 +217,8 @@ class UDP_Server:
         return np.array(positions),np.array(angles[1:]),np.array(angles[0])
 
 if(__name__ == '__main__'):
-    server = UDP_Server(record = True)
-    # # time.sleep(5)
-
+    server = UDP_Server(record = False,control = False)    # # time.sleep(5)
+    time.sleep(5)
     # ### decrypt message
     # # a = server.message.decode('utf-8').replace('\t','').replace('\n',';')
     # # a = eval(a)
