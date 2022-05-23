@@ -177,12 +177,18 @@ If you do not see any available files, you may need to run:
 from the downloaded pcan folder: this theoretically creates the devices files if
 the system has not done it automatically.
 
-3. Build the sources
+3. Build the sources:  
+```
+    catkin_make  
+```
+4. Source the environment:
+```
+    source devel/setup.bash  
+```
 
-    catkin_make
-    source devel/setup.bash
-
-4. quick start
-    cd src/allegro_hand_controllers/launch
+5. quick start:  
+```
+    cd src/allegro_hand_controllers/launch  
     roslaunch allegro_hand.launch HAND:=right
+```
 
