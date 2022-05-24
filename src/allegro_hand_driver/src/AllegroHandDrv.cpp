@@ -251,7 +251,7 @@ void AllegroHandDrv::_writeDevices()
 
     for (int findex = 0; findex < 4; findex++) {
         CANAPI::command_set_torque(_can_handle, findex, &pwm[findex*4]);
-        //ROS_INFO("write torque %d: %d %d %d %d", findex, pwm[findex*4+0], pwm[findex*4+1], pwm[findex*4+2], pwm[findex*4+3]);
+        // ROS_INFO("write torque %d: %d %d %d %d", findex, pwm[findex*4+0], pwm[findex*4+1], pwm[findex*4+2], pwm[findex*4+3]);
     }
 }
 
@@ -279,8 +279,8 @@ void AllegroHandDrv::_parseMessage(int id, int len, unsigned char* data)
             if (_hand_version==4)
             {
                 //v4
-                _tau_cov_const = 1200.0;
-                _input_voltage = 12.0;
+                _tau_cov_const = 2400.0;
+                _input_voltage = 24.0;
                 _pwm_max_global = PWM_LIMIT_GLOBAL_12V;
             } else
             {
